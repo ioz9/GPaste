@@ -1,0 +1,66 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ gpaste (2.2.1~git) UNRELEASED; urgency=low
+ .
+   * Git
+Author: Zang MingJie <zealot0630@gmail.com>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- gpaste-2.2.1~git.orig/src/applets/gnome-shell/extension.js
++++ gpaste-2.2.1~git/src/applets/gnome-shell/extension.js
+@@ -27,6 +27,12 @@ const Pango = imports.gi.Pango;
+ const PanelMenu = imports.ui.panelMenu;
+ const PopupMenu = imports.ui.popupMenu;
+ const Gettext = imports.gettext;
++try {
++  const Keybinder = imports.gi.Keybinder;
++  Keybinder.init();
++} catch(e) {
++}
++
+ 
+ const _ = Gettext.domain('GPaste').gettext;
+ const BUS_NAME = 'org.gnome.GPaste';
+@@ -182,6 +188,7 @@ GPasteIndicator.prototype = {
+ };
+ 
+ let _indicator;
++let _callback;
+ 
+ function init(metadata) {
+     Gettext.bindtextdomain('gpaste', metadata.localedir);
+@@ -192,9 +199,17 @@ function init(metadata) {
+ function enable() {
+     _indicator = new GPasteIndicator();
+     Main.panel.addToStatusArea('gpaste', _indicator);
++    if (Keybinder) {
++      _callback = function() { _indicator._toggleHistory(); };
++      Keybinder.bind("<Control><Alt>a", _callback);
++    }
+ }
+ 
+ function disable() {
++    if (Keybinder) {
++      Keybinder.unbind("<Control><Alt>a", _callback);
++      _callback = undefined;
++    }
+     _indicator.destroy();
+ }
+ 

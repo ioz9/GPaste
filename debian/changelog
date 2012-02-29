@@ -1,0 +1,12 @@
+gpaste (2.2.1~git) UNRELEASED; urgency=low
+
+  * Git cea5bca88a0a4d64f5019a68ffe053580edf8ffc
+
+ -- Zang MingJie <kghost@localhost>  Wed, 29 Feb 2012 15:29:17 +0800
+
+gpaste (2.0-1) UNRELEASED; urgency=low
+
+  * Initial release (Closes: #647263)
+    Package based in the work by Alin Andrei <webupd8@gmail.com>
+
+ -- Victor Seva <linuxmaniac@torreviejawireless.org>  Sun, 27 Nov 2011 19:43:50 +0100

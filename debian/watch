@@ -1,0 +1,4 @@
+version=3
+# githubredir.debian.net is a redirector for GitHub projects
+# It can be used as following:
+http://githubredir.debian.net/github/Keruspe/GPaste (.*).tar.gz
